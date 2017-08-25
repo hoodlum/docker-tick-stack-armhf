@@ -10,22 +10,22 @@ language: bash
 
 before_install:
 ##get latest docker-ce version
-- sudo apt-get update
-- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-- sudo rm /usr/local/bin/docker-compose
+#- sudo apt-get update
+#- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+#- sudo rm /usr/local/bin/docker-compose
 #- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
 #- chmod +x docker-compose
 #- sudo mv docker-compose /usr/local/bin
 # prepare qemu
-#- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+- docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # build image
 - docker build -f ./telegraf/Dockerfile.alt -t artefact/telegraf .
 # test image
-- docker run artefact/telegraf
-- docker ps -a
+#- docker run artefact/telegraf
+#- docker ps -a
 
 after_success:
 # push image
 - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-- docker tag artefact/telegraf stelzer77/telegraf-armhf:0.1
-- docker push stelzer77/telegraf-armhf:0.1
+- docker tag artefact/telegraf stelzer77/telegraf-armhf:test
+- docker push stelzer77/telegraf-armhf:test
