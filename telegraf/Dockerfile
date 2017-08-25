@@ -7,8 +7,6 @@ FROM arm32v7/golang:latest as build-stage
 
 #ENV REPO github.com/influxdata/telegraf
 
-ENV GOOS=linux
-ENV GOARCH=arm
 ENV GOPATH /go
 ENV GOBIN /go/bin
 
