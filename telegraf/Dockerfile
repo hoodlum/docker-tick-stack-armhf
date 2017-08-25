@@ -3,7 +3,7 @@
 # Step 1 - Build telegraf
 # Step 2 - Build Image only with
 
-FROM golang:latest as build-stage
+FROM arm32v7/golang:latest as build-stage
 
 #ENV REPO github.com/influxdata/telegraf
 
