@@ -17,7 +17,7 @@ before_install:
 #- chmod +x docker-compose
 #- sudo mv docker-compose /usr/local/bin
 # prepare qemu
-- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+#- docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # build image
 - docker build -f ./telegraf/Dockerfile.alt -t artefact/telegraf .
 # test image

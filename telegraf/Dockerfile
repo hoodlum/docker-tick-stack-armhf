@@ -3,10 +3,12 @@
 # Step 1 - Build telegraf
 # Step 2 - Build Image only with
 
-FROM arm32v7/golang:latest as build-stage
+FROM golang:latest as build-stage
 
 #ENV REPO github.com/influxdata/telegraf
 
+ENV GOOS=linux
+ENV GOARCH=arm
 ENV GOPATH /go
 ENV GOBIN /go/bin
 
