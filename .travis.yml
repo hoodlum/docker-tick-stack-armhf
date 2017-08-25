@@ -19,7 +19,7 @@ before_install:
 # prepare qemu
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # build image
-- docker build -f ./telegraf/Dockerfile.alt -t artefact/telegraf .
+- docker build -f ./telegraf/Dockerfile.prebuild -t artefact/telegraf .
 # test image
 #- docker run artefact/telegraf
 #- docker ps -a
