@@ -16,7 +16,7 @@ RUN apk update && apk upgrade && \
     go version && \
     go get -v github.com/influxdata/telegraf && \
     cd $GOPATH/src/github.com/influxdata/telegraf && \
-#    if [ $TELEGRAF_VERSION != "master" ]; then git checkout -q --detach "${TELEGRAF_VERSION}" ; fi && \
+    if [ $TELEGRAF_VERSION != "master" ]; then git checkout -q --detach "${TELEGRAF_VERSION}" ; fi && \
     make && \
     chmod +x $GOBIN/* && \
 #    mv $GOBIN/* /bin/ && \
