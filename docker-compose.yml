@@ -1,0 +1,27 @@
+version: "3"
+services:
+
+
+telegraf:
+  image: stelzer77/telegraf-armhf
+  volumes:
+    - ./telegraf.config:/var/lib/db
+influxdb:
+  image: hypriot/rpi-influxdb
+  volumes:
+    - influxdb-data:/data
+grafana:
+  image: fg2it/grafana-armhf
+  ports:
+    - "3000:3000"
+  volumes:
+    - grafana-data:/var/lib/grafana
+
+volumes:
+  influxdb-data:
+    external:
+      name: influxdb-data-volume
+  grafana-data:
+    external:
+      name: grafana-data-volume
+
