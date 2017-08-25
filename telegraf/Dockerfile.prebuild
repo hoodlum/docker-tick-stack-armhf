@@ -1,6 +1,7 @@
 
-FROM hypriot/rpi-alpine
+#FROM hypriot/rpi-alpine
 #alternativ: FROM resin/raspberrypi3-alpine
+FROM resin/rpi-raspbian:jessie
 
 MAINTAINER Soeren Stelzer
 
