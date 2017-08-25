@@ -5,17 +5,18 @@
 
 FROM arm32v7/golang:latest as build-stage
 
+#ENV REPO github.com/influxdata/telegraf
+
 ENV GOPATH /go
 ENV GOBIN /go/bin
 
-RUN mkdir /go && \
+RUN go get github.com/influxdata/telegraf && \
     cd $GOPATH/src/github.com/influxdata/telegraf && \
     make
 
 FROM hypriot/rpi-alpine:latest
 #next time build: multiarch/alpine:armhf-edge
 
-#RUN go get github.com/influxdata/telegraf
 COPY --from=build-stage $GOBIN $GOBIN
 
 ENTRYPOINT ["/go/bin/telegraf"]
