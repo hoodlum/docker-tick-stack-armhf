@@ -26,6 +26,6 @@ before_install:
 
 after_success:
 # push image
-docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-docker tag artefact/telegraf stelzer77/telegraf-armhf:0.1
-docker push stelzer77/telegraf-armhf:0.1
+- docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+- docker tag artefact/telegraf stelzer77/telegraf-armhf:0.1
+- docker push stelzer77/telegraf-armhf:0.1
