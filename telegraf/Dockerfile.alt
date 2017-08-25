@@ -11,7 +11,8 @@ ENV GOPATH /go
 ENV GOBIN /go/bin
 
 RUN apk update && apk upgrade && \
-    apk --virtual build-deps add openssl git gcc musl-dev make binutils patch go && \
+    apk --virtual build-deps add openssl git gcc musl-dev make binutils patch go ca-certificates&& \
+    update-ca-certificates && \
 #    export GOPATH=/go && \
     go version && \
     go get -v github.com/influxdata/telegraf && \
