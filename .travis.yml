@@ -9,7 +9,7 @@ script:
 # prepare qemu
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # build image
-- docker build -t stelzer77/telegraf-armhf telegraf/
+- docker build -t stelzer77/telegraf-armhf ./telegraf/
 # test image
 - docker run stelzer77/telegraf-armhf config
 # push image
