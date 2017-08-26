@@ -32,11 +32,11 @@ RUN set -ex \
 FROM hypriot/rpi-alpine
 
 COPY --from=build-stage /usr/src/telegraf/ /
-COPY entrypoint.sh /entrypoint.sh
+#COPY entrypoint.sh /entrypoint.sh
 
 RUN apk --no-cache add ca-certificates \
-    && chmod +x /usr/bin/telegraf \
-    && chmod +x /entrypoint.sh
+    && chmod +x /usr/bin/telegraf
+#    && chmod +x /entrypoint.sh
 
 EXPOSE 8125/udp 8092/udp 8094
 
