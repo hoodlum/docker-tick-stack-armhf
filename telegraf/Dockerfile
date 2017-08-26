@@ -7,7 +7,7 @@ FROM hypriot/rpi-alpine as build-stage
 MAINTAINER Soeren Stelzer
 
 RUN echo 'hosts: files dns' >> /etc/nsswitch.conf \
-RUN && apk add --no-cache \
+    && apk add --no-cache \
            iputils \
            ca-certificates \
            net-snmp-tools \
