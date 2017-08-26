@@ -20,7 +20,7 @@ before_install:
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # build image
 - cd telegraf
-- docker build -f Dockerfile.prebuild -t artefact/telegraf .
+- docker build -t stelzer77/telegraf-armhf .
 - cd ..
 # test image
 #- docker run artefact/telegraf
@@ -29,5 +29,7 @@ before_install:
 after_success:
 # push image
 - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-- docker tag artefact/telegraf stelzer77/telegraf-armhf:test
-- docker push stelzer77/telegraf-armhf:test
+- TAG=$(grep "ENV TELEGRAF_VERSION" telegraf/Dockerfile | awk 'NF>1{print $NF}')
+- docker tag stelzer77/telegraf-armhf:latest stelzer77/telegraf-armhf:$TAG
+- docker push stelzer77/telegraf-armhf:latest
+- docker push stelzer77/telegraf-armhf:$TAG

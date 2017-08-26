@@ -1,23 +1,40 @@
-#Multistage Build
 
-# Step 1 - Build telegraf
-# Step 2 - Build Image only with
+FROM hypriot/rpi-alpine
+#FROM resin/raspberrypi3-alpine
+#FROM resin/rpi-raspbian:jessie
 
-FROM arm32v7/golang:latest as build-stage
+MAINTAINER Soeren Stelzer
 
-#ENV REPO github.com/influxdata/telegraf
+RUN echo 'hosts: files dns' >> /etc/nsswitch.conf 
+RUN apk add --no-cache iputils ca-certificates net-snmp-tools && \
+    update-ca-certificates
 
-ENV GOPATH /go
-ENV GOBIN /go/bin
+ENV TELEGRAF_VERSION 1.3.5 \
+ENV TELEGRAF_FILE telegraf-${TELEGRAF_VERSION}_linux_armhf.tar.gz \
+ENV TELEGRAF_URL https://dl.influxdata.com/telegraf/releases/${TELEGRAF_FILE} \
 
-RUN go get github.com/influxdata/telegraf && \
-    cd $GOPATH/src/github.com/influxdata/telegraf && \
-    make
+RUN set -ex && \
+    apk add --no-cache --virtual .build-deps wget gnupg tar && \
+    for key in \
+        05CE15085FC09D18E99EFB22684A14CF2582E0C5 ; \
+    do \
+        gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
+        gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
+        gpg --keyserver keyserver.pgp.com --recv-keys "$key" ; \
+    done && \
+    wget -q ${TELEGRAF_URL}.asc && \
+    wget -q ${TELEGRAF_URL} && \
+    gpg --batch --verify ${TELEGRAF_FILE}.asc ${TELEGRAF_FILE} && \
+    mkdir -p /usr/src /etc/telegraf && \
+    tar -C /usr/src -xzf ${TELEGRAF_FILE} && \
+    mv /usr/src/telegraf*/telegraf.conf /etc/telegraf/ && \
+    chmod +x /usr/src/telegraf*/* && \
+    cp -a /usr/src/telegraf*/* /usr/bin/ && \
+    rm -rf *.tar.gz* /usr/src /root/.gnupg && \
+    apk del .build-deps
 
-FROM hypriot/rpi-alpine:latest
-#next time build: multiarch/alpine:armhf-edge
+EXPOSE 8125/udp 8092/udp 8094
 
-COPY --from=build-stage $GOBIN $GOBIN
-
-ENTRYPOINT ["/go/bin/telegraf"]
-#CMD /go/bin/telegraf
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["telegraf"]
