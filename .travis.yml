@@ -16,9 +16,11 @@ before_install:
 - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
 - chmod +x docker-compose
 - sudo mv docker-compose /usr/local/bin
+
 # prepare qemu
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-# build image
+
+# build image: telegraf
 - cd telegraf
 - docker build -t stelzer77/telegraf-armhf .
 - cd ..

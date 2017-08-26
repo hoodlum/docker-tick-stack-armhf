@@ -31,11 +31,6 @@ RUN set -ex \
     && gpg --batch --verify ${TELEGRAF_FILE}.asc ${TELEGRAF_FILE} \
     && mkdir -p /usr/src /etc/telegraf \
     && tar -C /usr/src -xzf ${TELEGRAF_FILE}
-#    mv /usr/src/telegraf*/telegraf.conf /etc/telegraf/ && \
-#    chmod +x /usr/src/telegraf*/* && \
-#    cp -a /usr/src/telegraf*/* /usr/bin/ && \
-#    rm -rf *.tar.gz* /usr/src /root/.gnupg && \
-#    apk del .build-deps
 
 FROM hypriot/rpi-alpine
 
@@ -49,6 +44,9 @@ RUN apk --no-cache add ca-certificates \
 EXPOSE 8125/udp 8092/udp 8094
 
 COPY entrypoint.sh /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["telegraf"]
+
+#default config-location: /etc/telegraf/telegraf.conf
 
