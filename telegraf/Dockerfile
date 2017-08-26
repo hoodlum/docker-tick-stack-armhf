@@ -1,21 +1,18 @@
-# inspired by official image
-
-#FROM resin/raspberry-pi3-buildpack-deps as build-stage
-#FROM resin/raspberry-pi-golang
 FROM hypriot/rpi-alpine as build-stage
 
 MAINTAINER Soeren Stelzer
 
+ENV TELEGRAF_VERSION 1.3.3
+ENV TELEGRAF_FILE telegraf-${TELEGRAF_VERSION}_linux_armhf.tar.gz
+ENV TELEGRAF_URL https://dl.influxdata.com/telegraf/releases/${TELEGRAF_FILE}
+
+# inspired by official image
 RUN echo 'hosts: files dns' >> /etc/nsswitch.conf \
     && apk add --no-cache \
            iputils \
            ca-certificates \
            net-snmp-tools \
     && update-ca-certificates
-
-ENV TELEGRAF_VERSION 1.3.3
-ENV TELEGRAF_FILE telegraf-${TELEGRAF_VERSION}_linux_armhf.tar.gz
-ENV TELEGRAF_URL https://dl.influxdata.com/telegraf/releases/${TELEGRAF_FILE}
 
 RUN set -ex \
     && apk add --no-cache --virtual .build-deps wget gnupg tar \
