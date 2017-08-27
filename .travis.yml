@@ -23,10 +23,13 @@ before_install:
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 # build image: telegraf
-- cd telegraf
+- ROOT_DIR=$PWD
+- cd $PWD/telegraf
 - docker build -t stelzer77/telegraf-armhf .
-- cd ..\influxdb
+- cd $PWD/influxdb
 - docker build -t stelzer77/influxdb-armhf
+#- cd $PWD/kapacitor
+#- cd $PWD/?????????
 # test image
 # TODO
 
