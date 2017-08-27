@@ -25,7 +25,8 @@ before_install:
 # build image: telegraf
 - cd telegraf
 - docker build -t stelzer77/telegraf-armhf .
-- cd ..
+- cd ..\influxdb
+- docker build -t stelzer77/influxdb-armhf
 # test image
 # TODO
 
@@ -37,4 +38,9 @@ after_success:
     docker tag stelzer77/telegraf-armhf:latest stelzer77/telegraf-armhf:$TELEGRAF_TAG;
     docker push stelzer77/telegraf-armhf:latest;
     docker push stelzer77/telegraf-armhf:$TELEGRAF_TAG;
+    INFLUXDB_TAG=$(grep "ENV INFLUX_DB_VERSION" telegraf/Dockerfile | awk 'NF>1{print $NF}');
+    docker tag stelzer77/influxdb-armhf:latest stelzer77/telegraf-armhf:$INFLUX_DB_TAG;
+    docker push stelzer77/influxdb-armhf:latest;
+    docker push stelzer77/influxdb-armhf:$INFLUX_DB_TAG;
+
   fi
