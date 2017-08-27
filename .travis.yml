@@ -26,7 +26,7 @@ before_install:
 - cd telegraf 
 - docker build -t stelzer77/telegraf-armhf .
 - cd ../influxdb
-- docker build -t stelzer77/influxdb-armhf
+- docker build -t stelzer77/influxdb-armhf .
 #- cd ../kapacitor
 #- cd ../chronograf
 
