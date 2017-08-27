@@ -32,9 +32,9 @@ before_install:
 after_success:
 # push image if from master branch
 - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-    TELEGRAF_TAG=$(grep "ENV TELEGRAF_VERSION" telegraf/Dockerfile | awk 'NF>1{print $NF}')
-    docker tag stelzer77/telegraf-armhf:latest stelzer77/telegraf-armhf:$TELEGRAF_TAG
-    docker push stelzer77/telegraf-armhf:latest
-    docker push stelzer77/telegraf-armhf:$TELEGRAF_TAG
+    docker login -u="$DOCKER_USER" -p="$DOCKER_PASS";
+    TELEGRAF_TAG=$(grep "ENV TELEGRAF_VERSION" telegraf/Dockerfile | awk 'NF>1{print $NF}');
+    docker tag stelzer77/telegraf-armhf:latest stelzer77/telegraf-armhf:$TELEGRAF_TAG;
+    docker push stelzer77/telegraf-armhf:latest;
+    docker push stelzer77/telegraf-armhf:$TELEGRAF_TAG;
   fi
