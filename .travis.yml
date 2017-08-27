@@ -23,13 +23,16 @@ before_install:
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 # build image: telegraf
-- cd telegraf 
+- cd $TRAVIS_BUILD_DIR/telegraf 
 - docker build -t stelzer77/telegraf-armhf .
-- cd ../influxdb
-- docker build -t stelzer77/influxdb-armhf .
-#- cd ../kapacitor
-#- cd ../chronograf
 
+- cd $TRAVIS_BUILD_DIR/influxdb
+- docker build -t stelzer77/influxdb-armhf .
+
+#- cd $TRAVIS_BUILD_DIR/kapacitor
+#- cd $TRAVIS_BUILD_DIR/chronograf
+
+- cd $TRAVIS_BUILD_DIR
 # test image
 # TODO
 
@@ -41,8 +44,8 @@ after_success:
     docker tag stelzer77/telegraf-armhf:latest stelzer77/telegraf-armhf:$TELEGRAF_TAG;
     docker push stelzer77/telegraf-armhf:latest;
     docker push stelzer77/telegraf-armhf:$TELEGRAF_TAG;
-    INFLUXDB_TAG=$(grep "ENV INFLUX_DB_VERSION" telegraf/Dockerfile | awk 'NF>1{print $NF}');
-    docker tag stelzer77/influxdb-armhf:latest stelzer77/telegraf-armhf:$INFLUX_DB_TAG;
+    INFLUXDB_TAG=$(grep "ENV INFLUX_DB_VERSION" influxdb/Dockerfile | awk 'NF>1{print $NF}');
+    docker tag stelzer77/influxdb-armhf:latest stelzer77/influxdb-armhf:$INFLUX_DB_TAG;
     docker push stelzer77/influxdb-armhf:latest;
     docker push stelzer77/influxdb-armhf:$INFLUX_DB_TAG;
 
