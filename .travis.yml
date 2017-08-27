@@ -44,9 +44,8 @@ after_success:
     docker tag stelzer77/telegraf-armhf:latest stelzer77/telegraf-armhf:$TELEGRAF_TAG;
     docker push stelzer77/telegraf-armhf:latest;
     docker push stelzer77/telegraf-armhf:$TELEGRAF_TAG;
-    INFLUXDB_TAG=$(grep "ENV INFLUX_DB_VERSION" influxdb/Dockerfile | awk 'NF>1{print $NF}');
+    INFLUX_DB_TAG=$(grep "ENV INFLUX_DB_VERSION" influxdb/Dockerfile | awk 'NF>1{print $NF}');
     docker tag stelzer77/influxdb-armhf:latest stelzer77/influxdb-armhf:$INFLUX_DB_TAG;
     docker push stelzer77/influxdb-armhf:latest;
     docker push stelzer77/influxdb-armhf:$INFLUX_DB_TAG;
-
   fi
