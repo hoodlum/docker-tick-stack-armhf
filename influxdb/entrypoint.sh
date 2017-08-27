@@ -9,5 +9,8 @@ if [ "${1}" = 'influxd' ]; then
     set -- /usr/bin/influxd "$@"
 fi
 
+if [ "${1}" = 'influxdb' ]; then
+    set -- /usr/bin/influxd "$@"
+fi
 
 exec "$@"
