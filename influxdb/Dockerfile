@@ -21,7 +21,8 @@ FROM hypriot/rpi-alpine
 COPY --from=build-stage /usr/src /
 COPY entrypoint.sh /entrypoint.sh
 
-EXPOSE 8125/udp 8092/udp 8094
+# HTTP API
+EXPOSE 8086
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["influxd"]
