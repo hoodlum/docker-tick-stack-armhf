@@ -1,21 +1,37 @@
 version: "3"
+
 services:
+  
+  #Telegraf service
+  telegraf:
+    image: stelzer77/telegraf-armhf
+    volumes:
+      - ./telegraf.config:/etc/telegraf/telegraf.config:ro
+    ports:
+      - "8092:8092/udp"
+      - "8094:8094"
+      - "8125:8125/udp"
+    links:
+      - "influxdb:influxdb"
+  
+  #Influx-DB service
+  influxdb:
+    image: stelzer77/influxdb-armhf
+    volumes:
+      - influxdb-data:/data
+      #- ./data/influxdb:/var/lib/influxdb
+    ports:
+      - "8086:8086"
 
-
-telegraf:
-  image: stelzer77/telegraf-armhf
-  volumes:
-    - ./telegraf.config:/var/lib/db
-influxdb:
-  image: hypriot/rpi-influxdb
-  volumes:
-    - influxdb-data:/data
-grafana:
-  image: fg2it/grafana-armhf
-  ports:
-    - "3000:3000"
-  volumes:
-    - grafana-data:/var/lib/grafana
+  #Grafana service
+  grafana:
+    image: fg2it/grafana-armhf
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    links:
+      - "influxdb:influxdb"
 
 volumes:
   influxdb-data:
