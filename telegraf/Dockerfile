@@ -21,7 +21,6 @@ COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 8125/udp 8092/udp 8094
 
-#ENTRYPOINT ["telegraf"]
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["telegraf"]
 
