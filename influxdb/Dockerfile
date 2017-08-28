@@ -24,7 +24,4 @@ COPY entrypoint.sh /entrypoint.sh
 EXPOSE 8125/udp 8092/udp 8094
 
 ENTRYPOINT ["/entrypoint.sh"]
-#CMD ["influxd"]
-
-# curl -sSL https://dl.influxdata.com/influxdb/releases/influxdb-1.3.4_linux_armhf.tar.gz | tar xz --strip 2 -C /usr/src
-# curl -o /usr/src/usr/lib/influxdb/types.db https://github.com/collectd/collectd/raw/master/src/types.db
+CMD ["influxd"]
