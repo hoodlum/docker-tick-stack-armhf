@@ -6,7 +6,7 @@ services:
   telegraf:
     image: stelzer77/telegraf-armhf
     volumes:
-      - ./telegraf.config:/etc/telegraf/telegraf.config:ro
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
     ports:
       - "8092:8092/udp"
       - "8094:8094"
