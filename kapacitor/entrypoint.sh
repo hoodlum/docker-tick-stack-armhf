@@ -1,13 +1,11 @@
 #!/bin/sh
 set -e
 
-if [ "${1}" = 'telegraf' ]; then
-    set -- /usr/bin/telegraf "$@"
+if [ "${1:0:1}" = '-' ]; then
+    set -- kapacitord "$@"
 fi
 
-if [ "${1}" = 'config' ]; then
-    set -- /usr/bin/telegraf "$@"
-fi
-
+KAPACITOR_HOSTNAME=${KAPACITOR_HOSTNAME:-$HOSTNAME}
+export KAPACITOR_HOSTNAME
 
 exec "$@"

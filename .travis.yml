@@ -1,3 +1,4 @@
+
 sudo: required
 
 services:
@@ -23,14 +24,17 @@ before_install:
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 # build image: telegraf
-- cd $TRAVIS_BUILD_DIR/telegraf 
+- cd $TRAVIS_BUILD_DIR/telegraf
 - docker build -t stelzer77/telegraf-armhf .
 
 - cd $TRAVIS_BUILD_DIR/influxdb
 - docker build -t stelzer77/influxdb-armhf .
 
-#- cd $TRAVIS_BUILD_DIR/kapacitor
-#- cd $TRAVIS_BUILD_DIR/chronograf
+- cd $TRAVIS_BUILD_DIR/kapacitor
+- docker build -t stelzer77/kapacitor-armhf .
+
+- cd $TRAVIS_BUILD_DIR/chronograf
+- docker build -t stelzer77/chronograf-armhf .
 
 - cd $TRAVIS_BUILD_DIR
 # test image
@@ -40,12 +44,26 @@ after_success:
 # push image if from master branch
 - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USER" -p="$DOCKER_PASS";
+
     TELEGRAF_TAG=$(grep "ENV TELEGRAF_VERSION" telegraf/Dockerfile | awk 'NF>1{print $NF}');
     docker tag stelzer77/telegraf-armhf:latest stelzer77/telegraf-armhf:$TELEGRAF_TAG;
     docker push stelzer77/telegraf-armhf:latest;
     docker push stelzer77/telegraf-armhf:$TELEGRAF_TAG;
+
     INFLUX_DB_TAG=$(grep "ENV INFLUX_DB_VERSION" influxdb/Dockerfile | awk 'NF>1{print $NF}');
     docker tag stelzer77/influxdb-armhf:latest stelzer77/influxdb-armhf:$INFLUX_DB_TAG;
     docker push stelzer77/influxdb-armhf:latest;
     docker push stelzer77/influxdb-armhf:$INFLUX_DB_TAG;
+
+    CHRONOGRAF_TAG=$(grep "ENV CHRONOGRAF_VERSION" chronograf/Dockerfile | awk 'NF>1{print $NF}');
+    docker tag stelzer77/chronograf-armhf:latest stelzer77/chronograf-armhf:$CHRONOGRAF_TAG;
+    docker push stelzer77/chronograf-armhf:latest;
+    docker push stelzer77/chronograf-armhf:$CHRONOGRAF_TAG;
+
+    KAPACITOR_TAG=$(grep "ENV KAPACITOR_VERSION" kapacitor/Dockerfile | awk 'NF>1{print $NF}');
+    docker tag stelzer77/kapacitor-armhf:latest stelzer77/kapacitor-armhf:$KAPACITOR_TAG;
+    docker push stelzer77/kapacitor-armhf:latest;
+    docker push stelzer77/kapacitor-armhf:$KAPACITOR_TAG;
+
   fi
+

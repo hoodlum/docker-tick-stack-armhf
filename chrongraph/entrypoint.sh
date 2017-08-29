@@ -1,13 +1,12 @@
 #!/bin/sh
 set -e
 
-if [ "${1}" = 'telegraf' ]; then
-    set -- /usr/bin/telegraf "$@"
+if [ "${1:0:1}" = '-' ]; then
+    set -- chronograf "$@"
 fi
 
-if [ "${1}" = 'config' ]; then
-    set -- /usr/bin/telegraf "$@"
+if [ "$1" = 'chronograf' ]; then
+  export BOLT_PATH=${BOLT_PATH:-/var/lib/chronograf/chronograf-v1.db}
 fi
-
 
 exec "$@"
