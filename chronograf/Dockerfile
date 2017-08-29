@@ -27,5 +27,5 @@ CMD ["chronograf"]
 
 #wget https://dl.influxdata.com/chronograf/releases/chronograf-1.3.7.0_linux_armhf.tar.gz
 #/var/lib/chronograf
-#chronograf --influxdb-url=http://influxdb:8086
+#chronograf --influxdb-url=http://influxdb:8086 -> $INFLUXDB_URL
 #Chronograf dashboards path: $BOLT_PATH or /var/lib/chronograf/chronograf-v1.db 

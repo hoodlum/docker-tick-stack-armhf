@@ -2,6 +2,14 @@ version: "3"
 
 services:
 
+  #Influx-DB service
+  influxdb:
+    image: stelzer77/influxdb-armhf
+    volumes:
+      - influxdb-data:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+
   #Telegraf service
   telegraf:
     image: stelzer77/telegraf-armhf
@@ -15,6 +23,34 @@ services:
       - influxdb:influxdb
     depends_on:
       - influxdb
+
+  #Kapacitor service
+  kapacitor:
+    image: stelzer77/kapacitor-armhf
+#    volumes:
+#      - ./telegraf.conf:/etc/kapacitor/telegraf.conf:ro
+    ports:
+      - "9092:9092"
+    links:
+      - influxdb:influxdb
+    depends_on:
+      - influxdb
+
+  #Chronograf service
+  chronograf:
+    image: stelzer77/chronograf-armhf
+    volumes:
+      - chronograf-data:/var/lib/chronograf
+    ports:
+      - "8888:8888"
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - KAPACITOR_URL=http://kapacitor:9092
+    links:
+      - influxdb:influxdb
+    depends_on:
+      - influxdb
+
 
   #Grafana service
   grafana:
@@ -30,14 +66,6 @@ services:
     depends_on:
       - influxdb
 
-  #Influx-DB service
-  influxdb:
-    image: stelzer77/influxdb-armhf
-    volumes:
-      - influxdb-data:/var/lib/influxdb
-    ports:
-      - "8086:8086"
-
 volumes:
   influxdb-data:
     external:
@@ -45,3 +73,12 @@ volumes:
   grafana-data:
     external:
       name: grafana-data-volume
+  kapacitor-data:
+    external:
+      name: kapacitor-data-volume
+  chronograf-data:
+    external:
+      name: chronograf-data-volume
+  log-data:
+    external:
+      name: log-data-volume
