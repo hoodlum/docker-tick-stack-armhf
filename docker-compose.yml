@@ -27,8 +27,9 @@ services:
   #Kapacitor service
   kapacitor:
     image: stelzer77/kapacitor-armhf
-#    volumes:
-#      - ./telegraf.conf:/etc/kapacitor/telegraf.conf:ro
+    volumes:
+      - ./kapacitor.conf:/etc/kapacitor/kapacitor.conf:ro
+#      - kapacitor-data:/var/lib/kapacitor
     ports:
       - "9092:9092"
     links:
