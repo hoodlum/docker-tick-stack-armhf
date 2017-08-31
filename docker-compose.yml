@@ -19,6 +19,9 @@ services:
       - "8092:8092/udp"
       - "8094:8094"
       - "8125:8125/udp"
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - MQTT_SERVER_IP=192.168.178.153:1883
     links:
       - influxdb:influxdb
     depends_on:
